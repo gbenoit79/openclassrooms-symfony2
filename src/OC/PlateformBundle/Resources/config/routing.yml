@@ -1,0 +1,3 @@
+oc_plateform_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: OCPlateformBundle:Default:index }
