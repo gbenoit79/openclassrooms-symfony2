@@ -1,4 +1,0 @@
-services:
-#    oc_plateform.example:
-#        class: OC\PlateformBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
