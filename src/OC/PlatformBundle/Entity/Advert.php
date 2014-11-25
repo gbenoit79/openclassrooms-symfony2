@@ -63,6 +63,11 @@ class Advert
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="OC\PlatformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications;
+
     public function __construct()
     {
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
@@ -248,5 +253,41 @@ class Advert
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add applications
+     *
+     * @param \OC\PlatformBundle\Entity\Application $applications
+     * @return Advert
+     */
+    public function addApplication(\OC\PlatformBundle\Entity\Application $applications)
+    {
+        $this->applications[] = $applications;
+
+        // On lie l'annonce à la candidature
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove applications
+     *
+     * @param \OC\PlatformBundle\Entity\Application $applications
+     */
+    public function removeApplication(\OC\PlatformBundle\Entity\Application $applications)
+    {
+        $this->applications->removeElement($applications);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
