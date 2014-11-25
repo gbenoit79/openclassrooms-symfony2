@@ -18,7 +18,7 @@
     {{ advert.content }}
   </div>
 
-  {% if not listApplications.empty %}
+  {% if listApplications|length > 0 %}
     <ul>
       {% for application in listApplications %}
         <li>{{ application.author }} : {{ application.content }} ({{ application.date|date("d/m/Y") }})</li>
