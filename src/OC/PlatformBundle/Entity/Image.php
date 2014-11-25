@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="OC\PlatformBundle\Entity\ImageRepository")
  */
-class Image
+class Image 
 {
     /**
      * @ORM\Column(name="id", type="integer")

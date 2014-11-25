@@ -18,11 +18,13 @@
     {{ advert.content }}
   </div>
 
-  <ul>
-    {% for application in listApplications %}
-      <li>{{ application.author }} : {{ application.content }} ({{ application.date|date("d/m/Y") }})</li>
-    {% endfor %}
-  </ul>
+  {% if not listApplications.empty %}
+    <ul>
+      {% for application in listApplications %}
+        <li>{{ application.author }} : {{ application.content }} ({{ application.date|date("d/m/Y") }})</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
   {% if not advert.categories.empty %}
     <p>
@@ -32,6 +34,17 @@
       {% endfor %}
     </p>
   {% endif %}
+
+  {% if listAdvertSkills|length > 0 %}
+  <div>
+    Cette annonce requiert les compétences suivantes :
+    <ul>
+      {% for advertSkill in listAdvertSkills %}
+        <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
 
   <p>
     <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
