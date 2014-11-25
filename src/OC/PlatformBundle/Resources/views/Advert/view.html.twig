@@ -18,6 +18,12 @@
     {{ advert.content }}
   </div>
 
+  <ul>
+    {% for application in listApplications %}
+      <li>{{ application.author }} : {{ application.content }} ({{ application.date|date("d/m/Y") }})</li>
+    {% endfor %}
+  </ul>
+
   <p>
     <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>

@@ -1,5 +1,4 @@
 <?php
-
 namespace OC\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -59,18 +58,16 @@ class Advert
      */
     private $image;
 
-
     public function __construct()
     {
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         $this->date = new \Datetime();
     }
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -93,7 +90,7 @@ class Advert
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -116,7 +113,7 @@ class Advert
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -139,7 +136,7 @@ class Advert
     /**
      * Get author
      *
-     * @return string 
+     * @return string
      */
     public function getAuthor()
     {
@@ -162,7 +159,7 @@ class Advert
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -185,7 +182,7 @@ class Advert
     /**
      * Get published
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPublished()
     {
@@ -208,7 +205,7 @@ class Advert
     /**
      * Get image
      *
-     * @return \OC\PlatformBundle\Entity\Image 
+     * @return \OC\PlatformBundle\Entity\Image
      */
     public function getImage()
     {

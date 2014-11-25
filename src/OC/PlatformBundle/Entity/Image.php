@@ -8,27 +8,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Image
 {
-  /**
-   * @ORM\Column(name="id", type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
-  private $id;
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-  /**
-   * @ORM\Column(name="url", type="string", length=255)
-   */
-  private $url;
+    /**
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
 
-  /**
-   * @ORM\Column(name="alt", type="string", length=255)
-   */
-  private $alt;
+    /**
+     * @ORM\Column(name="alt", type="string", length=255)
+     */
+    private $alt;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -51,7 +51,7 @@ class Image
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -74,7 +74,7 @@ class Image
     /**
      * Get alt
      *
-     * @return string 
+     * @return string
      */
     public function getAlt()
     {
