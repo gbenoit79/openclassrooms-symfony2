@@ -122,22 +122,30 @@ class AdvertController extends Controller
 
     public function editAction($id, Request $request)
     {
-            // Ici, on récupérera l'annonce correspondante à $id
+        $em = $this->getDoctrine()->getManager();
 
-            // Même mécanisme que pour l'ajout
-        if ($request->isMethod('POST')) {
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+            // On récupère l'annonce $id
+        $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
-            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $id)));
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
 
-        $advert = array(
-            'title' => 'Recherche développpeur Symfony2',
-            'id' => $id,
-            'author' => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date' => new \Datetime(),
-        );
+            // La méthode findAll retourne toutes les catégories de la base de données
+        $listCategories = $em->getRepository('OCPlatformBundle:Category')->findAll();
+
+            // On boucle sur les catégories pour les lier à l'annonce
+        foreach ($listCategories as $category) {
+            $advert->addCategory($category);
+        }
+
+            // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
+            // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
+
+            // Étape 2 : On déclenche l'enregistrement
+        $em->flush();
+
+            // … reste de la méthode
 
         return $this->render('OCPlatformBundle:Advert:edit.html.twig', array(
             'advert' => $advert,
@@ -146,17 +154,17 @@ class AdvertController extends Controller
 
     public function deleteAction($id)
     {
-        // Ici, on récupérera l'annonce correspondant à $id
+            // Ici, on récupérera l'annonce correspondant à $id
 
-        // Ici, on gérera la suppression de l'annonce en question
+            // Ici, on gérera la suppression de l'annonce en question
 
         return $this->render('OCPlatformBundle:Advert:delete.html.twig');
     }
 
     public function menuAction($limit)
     {
-        // On fixe en dur une liste ici, bien entendu par la suite
-        // on la récupérera depuis la BDD !
+            // On fixe en dur une liste ici, bien entendu par la suite
+            // on la récupérera depuis la BDD !
         $listAdverts = array(
             array('id' => 2, 'title' => 'Recherche développeur Symfony2'),
             array('id' => 5, 'title' => 'Mission de webmaster'),
@@ -164,8 +172,8 @@ class AdvertController extends Controller
         );
 
         return $this->render('OCPlatformBundle:Advert:menu.html.twig', array(
-            // Tout l'intérêt est ici : le contrôleur passe
-            // les variables nécessaires au template !
+                // Tout l'intérêt est ici : le contrôleur passe
+                // les variables nécessaires au template !
             'listAdverts' => $listAdverts,
         ));
     }
