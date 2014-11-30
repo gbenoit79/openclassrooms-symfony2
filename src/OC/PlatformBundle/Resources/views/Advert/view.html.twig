@@ -8,7 +8,10 @@
 
   {# On vérifie qu'une image soit bien associée à l'annonce #}
   {% if advert.image is not null %}
-    <img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+    <img
+      src="{{ asset(advert.image.webPath) }}"
+      alt="{{ advert.image.alt }}"
+    />
   {% endif %}
 
   <h2>{{ advert.title }}</h2>
@@ -17,14 +20,6 @@
   <div class="well">
     {{ advert.content }}
   </div>
-
-  {% if listApplications|length > 0 %}
-    <ul>
-      {% for application in listApplications %}
-        <li>{{ application.author }} : {{ application.content }} ({{ application.date|date("d/m/Y") }})</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
 
   {% if not advert.categories.empty %}
     <p>
