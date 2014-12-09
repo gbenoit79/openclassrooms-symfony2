@@ -1,10 +1,10 @@
 <?php
 namespace OC\PlatformBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use OC\PlatformBundle\Entity\Advert;
 use OC\PlatformBundle\Form\AdvertType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdvertController extends Controller
 {
@@ -66,24 +66,32 @@ class AdvertController extends Controller
 
     public function addAction(Request $request)
     {
+        // // On récupère le service
+        // $antispam = $this->container->get('oc_platform.antispam');
+        // // Je pars du principe que $text contient le texte d'un message quelconque
+        // $text = '...';
+        // if ($antispam->isSpam($text)) {
+        //     throw new \Exception('Votre message a été détecté comme spam !');
+        // }
+
         $advert = new Advert();
         $form = $this->createForm(new AdvertType(), $advert);
 
         if ($form->handleRequest($request)->isValid()) {
-          $em = $this->getDoctrine()->getManager();
-          $em->persist($advert);
-          $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
 
-          $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-          return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
+            return $this->redirect($this->generateUrl('oc_platform_view', array('id' => $advert->getId())));
         }
 
         // À ce stade :
         // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
         // - Soit la requête est de type POST, mais le formulaire n'est pas valide, donc on l'affiche de nouveau
         return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
-          'form' => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -95,7 +103,7 @@ class AdvertController extends Controller
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
         if (null === $advert) {
-            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
 
         $form = $this->createForm(new AdvertEditType(), $advert);
@@ -110,8 +118,8 @@ class AdvertController extends Controller
         }
 
         return $this->render('OCPlatformBundle:Advert:edit.html.twig', array(
-            'form'   => $form->createView(),
-            'advert' => $advert // Je passe également l'annonce à la vue si jamais elle veut l'afficher
+            'form' => $form->createView(),
+            'advert' => $advert, // Je passe également l'annonce à la vue si jamais elle veut l'afficher
         ));
     }
 
@@ -123,7 +131,7 @@ class AdvertController extends Controller
         $advert = $em->getRepository('OCPlatformBundle:Advert')->find($id);
 
         if (null === $advert) {
-          throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
 
         // On crée un formulaire vide, qui ne contiendra que le champ CSRF
@@ -131,18 +139,18 @@ class AdvertController extends Controller
         $form = $this->createFormBuilder()->getForm();
 
         if ($form->handleRequest($request)->isValid()) {
-          $em->remove($advert);
-          $em->flush();
+            $em->remove($advert);
+            $em->flush();
 
-          $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
+            $request->getSession()->getFlashBag()->add('info', "L'annonce a bien été supprimée.");
 
-          return $this->redirect($this->generateUrl('oc_platform_home'));
+            return $this->redirect($this->generateUrl('oc_platform_home'));
         }
 
         // Si la requête est en GET, on affiche une page de confirmation avant de supprimer
         return $this->render('OCPlatformBundle:Advert:delete.html.twig', array(
-          'advert' => $advert,
-          'form'   => $form->createView()
+            'advert' => $advert,
+            'form' => $form->createView(),
         ));
     }
 

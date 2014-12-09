@@ -1,14 +1,24 @@
 services:
-    oc_platform.doctrine.notification:
-        class: OC\PlatformBundle\DoctrineListener\ApplicationNotification
-        arguments: [@mailer]
+    oc_platform.antispam:
+        class: OC\PlatformBundle\Antispam\OCAntispam
+        arguments: [@mailer, 50]
+        calls:
+            - [ setLocale, [ %locale% ] ]
         tags:
-            - { name: doctrine.event_listener, event: postPersist }
+            -  { name: twig.extension }
 
-    oc_platform.validator.antiflood:                              # Le nom du service
-        class: OC\PlatformBundle\Validator\AntifloodValidator     # La classe du service, ici notre validateur déjà créé
-        arguments: [@request_stack, @doctrine.orm.entity_manager] # Les données qu'on injecte au service : la requête et l'EntityManager
+    oc_platform.ckeditor:
+        class: OC\PlatformBundle\Form\Type\CkeditorType
         tags:
-            - { name: validator.constraint_validator, alias: oc_platform_antiflood }  # C'est avec l'alias qu'on retrouvera le service
+            - { name: form.type, alias: ckeditor }
+
+    oc_platform.beta.html:
+        class: OC\PlatformBundle\Beta\BetaHTML
+
+    oc_platform.beta.listener:
+        class: OC\PlatformBundle\Beta\BetaListener
+        arguments: [@oc_platform.beta.html, "2014-12-31"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: processBeta }
 
 
